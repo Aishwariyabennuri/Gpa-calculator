@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - GPATrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>GPATrack</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gpa.html" class="nav-link"><i class="fas fa-calculator"></i> GPA</a></li>
+                <li><a href="cgpa.html" class="nav-link"><i class="fas fa-chart-line"></i> CGPA</a></li>
+                <li><a href="simulator.html" class="nav-link"><i class="fas fa-magic"></i> What-If</a></li>
+                <li><a href="analytics.html" class="nav-link active"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h1><i class="fas fa-chart-bar"></i> Analytics Dashboard</h1>
+                    <p>Visualize your academic performance with interactive charts</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-secondary" id="exportPDFBtn">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </button>
+                    <button class="btn btn-secondary" id="exportCSVBtn">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn btn-secondary" id="printReportBtn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <section class="analytics-stats">
+                <div class="stats-row">
+                    <div class="analytics-stat-card glass-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Highest GPA</span>
+                            <span class="stat-value" id="highestGPA">0.00</span>
+                        </div>
+                    </div>
+                    <div class="analytics-stat-card glass-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Lowest GPA</span>
+                            <span class="stat-value" id="lowestGPA">0.00</span>
+                        </div>
+                    </div>
+                    <div class="analytics-stat-card glass-card">
+                        <div class="stat-icon secondary">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Average GPA</span>
+                            <span class="stat-value" id="avgGPA">0.00</span>
+                        </div>
+                    </div>
+                    <div class="analytics-stat-card glass-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Best Semester</span>
+                            <span class="stat-value" id="bestSemester">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- GPA Trend Chart -->
+                <section class="chart-card glass-card">
+                    <h3><i class="fas fa-chart-line"></i> Semester GPA Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="gpaTrendChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Credits per Semester -->
+                <section class="chart-card glass-card">
+                    <h3><i class="fas fa-chart-bar"></i> Credits per Semester</h3>
+                    <div class="chart-container">
+                        <canvas id="creditsChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Grade Distribution -->
+                <section class="chart-card glass-card full-width">
+                    <h3><i class="fas fa-chart-pie"></i> Grade Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="gradeDistributionChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Performance Rating -->
+            <section class="performance-section glass-card">
+                <h3><i class="fas fa-star"></i> Academic Performance Rating</h3>
+                <div class="performance-content">
+                    <div class="performance-meter">
+                        <div class="meter-scale">
+                            <div class="meter-mark">
+                                <span>0</span>
+                            </div>
+                            <div class="meter-mark">
+                                <span>5</span>
+                            </div>
+                            <div class="meter-mark">
+                                <span>10</span>
+                            </div>
+                        </div>
+                        <div class="meter-bar">
+                            <div class="meter-fill" id="performanceFill" style="width: 0%"></div>
+                            <div class="meter-indicator" id="performanceIndicator"></div>
+                        </div>
+                    </div>
+                    <div class="performance-label" id="performanceRating">
+                        <span class="rating-text">Add semesters to see your rating</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievement Badges -->
+            <section class="achievements-section glass-card">
+                <h3><i class="fas fa-award"></i> Achievement Badges</h3>
+                <div class="badges-grid" id="badgesGrid">
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <span class="badge-name">Academic Excellence</span>
+                        <span class="badge-requirement">CGPA >= 9.0</span>
+                    </div>
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="badge-name">Dean's List</span>
+                        <span class="badge-requirement">CGPA >= 8.5</span>
+                    </div>
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span class="badge-name">Top Performer</span>
+                        <span class="badge-requirement">3+ semesters >= 9.0</span>
+                    </div>
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="badge-name">Consistent Performer</span>
+                        <span class="badge-requirement">All GPAs within 1.0</span>
+                    </div>
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <span class="badge-name">Rising Star</span>
+                        <span class="badge-requirement">GPA improved 3+ times</span>
+                    </div>
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <span class="badge-name">Scholar</span>
+                        <span class="badge-requirement">100+ credits completed</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Empty State -->
+            <div class="empty-analytics" id="emptyAnalytics" style="display: none;">
+                <i class="fas fa-chart-bar"></i>
+                <h3>No Data Available</h3>
+                <p>Add some semesters to see your analytics and charts.</p>
+                <a href="gpa.html" class="btn btn-primary">
+                    <i class="fas fa-calculator"></i> Calculate GPA
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>GPATrack</span>
+                </div>
+                <p class="footer-text">Your comprehensive academic planning companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/utils.js" type="module"></script>
+    <script src="js/analytics.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart GPA Calculator - Academic Planning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>GPACalci</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gpa.html" class="nav-link"><i class="fas fa-calculator"></i> GPA</a></li>
+                <li><a href="cgpa.html" class="nav-link"><i class="fas fa-chart-line"></i> CGPA</a></li>
+                <li><a href="simulator.html" class="nav-link"><i class="fas fa-magic"></i> What-If</a></li>
+                <li><a href="analytics.html" class="nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Track Your Academic Journey</h1>
+                <p class="hero-subtitle">Calculate GPA, predict graduation outcomes, and visualize your progress</p>
+                <div class="hero-actions">
+                    <a href="gpa.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calculator"></i> Calculate GPA
+                    </a>
+                    <a href="simulator.html" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-magic"></i> What-If Simulator
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <a href="analytics.html" class="floating-card card-1">
+                    <i class="fas fa-trophy"></i>
+                    <span>Academic Excellence</span>
+                </a>
+                <a href="cgpa.html" class="floating-card card-2">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Track Progress</span>
+                </a>
+                <a href="simulator.html" class="floating-card card-3">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Set Goals</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-section">
+            <div class="container">
+                <h2 class="section-title">Your Academic Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card glass-card animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Current CGPA</span>
+                            <span class="stat-value" id="currentCGPA">0.00</span>
+                            <span class="stat-change positive" id="cgpaChange"></span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-icon secondary">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Latest Semester GPA</span>
+                            <span class="stat-value" id="latestGPA">0.00</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-icon success">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Credits Completed</span>
+                            <span class="stat-value" id="totalCredits">0</span>
+                            <span class="stat-sub" id="creditProgress">of 160 credits</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-card animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">Remaining Semesters</span>
+                            <span class="stat-value" id="remainingSemesters">8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section">
+            <div class="container">
+                <div class="progress-card glass-card">
+                    <div class="progress-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Progress to Graduation</h3>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="graduationProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span><i class="fas fa-check-circle"></i> <span id="completedCreditsStat">0</span> credits completed</span>
+                        <span><i class="fas fa-hourglass-half"></i> <span id="remainingCreditsStat">160</span> credits remaining</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="actions-section">
+            <div class="container">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="gpa.html" class="action-card glass-card">
+                        <div class="action-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Calculate GPA</h3>
+                        <p>Calculate your semester GPA with our easy-to-use calculator</p>
+                    </a>
+                    <a href="cgpa.html" class="action-card glass-card">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Calculate CGPA</h3>
+                        <p>Track your cumulative GPA across all semesters</p>
+                    </a>
+                    <a href="simulator.html" class="action-card glass-card">
+                        <div class="action-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>What-If Simulator</h3>
+                        <p>Predict your future CGPA based on expected grades</p>
+                    </a>
+                    <a href="analytics.html" class="action-card glass-card">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Analytics</h3>
+                        <p>Visualize your academic performance with charts</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="container">
+                <h2 class="section-title">Recent Semesters</h2>
+                <div class="semester-list" id="recentSemesters">
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No semesters added yet. Start by calculating your GPA!</p>
+                        <a href="gpa.html" class="btn btn-primary">Add Your First Semester</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>GPATrack</span>
+                </div>
+                <p class="footer-text">Your comprehensive academic planning companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3 id="confirmTitle">Confirm Action</h3>
+                <button class="modal-close" id="confirmClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/utils.js" type="module"></script>
+    <script src="js/gpa.js" type="module"></script>
+</body>
+</html>

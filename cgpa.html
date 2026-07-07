@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator - GPATrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>GPATrack</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gpa.html" class="nav-link"><i class="fas fa-calculator"></i> GPA</a></li>
+                <li><a href="cgpa.html" class="nav-link active"><i class="fas fa-chart-line"></i> CGPA</a></li>
+                <li><a href="simulator.html" class="nav-link"><i class="fas fa-magic"></i> What-If</a></li>
+                <li><a href="analytics.html" class="nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h1><i class="fas fa-chart-line"></i> CGPA Calculator</h1>
+                    <p>Track your cumulative GPA across all semesters</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-secondary" id="addManualBtn">
+                        <i class="fas fa-plus"></i> Add Manual Semester
+                    </button>
+                    <button class="btn btn-danger" id="clearAllBtn">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- CGPA Display -->
+            <section class="cgpa-display-section glass-card">
+                <div class="cgpa-main">
+                    <div class="cgpa-circle">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="cgpa-bg" cx="50" cy="50" r="45"/>
+                            <circle class="cgpa-progress" id="cgpaCircle" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <div class="cgpa-value-container">
+                            <span class="cgpa-value" id="cgpaValue">0.00</span>
+                            <span class="cgpa-label">CGPA</span>
+                        </div>
+                    </div>
+                    <div class="cgpa-stats">
+                        <div class="cgpa-stat">
+                            <i class="fas fa-calendar-check"></i>
+                            <span class="stat-num" id="completedSemesters">0</span>
+                            <span class="stat-text">Semesters</span>
+                        </div>
+                        <div class="cgpa-stat">
+                            <i class="fas fa-book"></i>
+                            <span class="stat-num" id="totalCreditsAll">0</span>
+                            <span class="stat-text">Total Credits</span>
+                        </div>
+                        <div class="cgpa-stat">
+                            <i class="fas fa-star"></i>
+                            <span class="stat-num" id="totalGradePoints">0</span>
+                            <span class="stat-text">Grade Points</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Badge -->
+                <div class="performance-badge" id="performanceBadge">
+                    <i class="fas fa-medal"></i>
+                    <span id="performanceText">Start your journey!</span>
+                </div>
+            </section>
+
+            <!-- Semesters List -->
+            <section class="semesters-section glass-card">
+                <h3><i class="fas fa-list-alt"></i> Your Semesters</h3>
+                <div class="semesters-list" id="semestersList">
+                    <!-- Semesters will be rendered here -->
+                </div>
+                <div class="empty-state" id="emptySemesters">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No semesters saved yet. Calculate your GPA first or add a manual semester!</p>
+                    <div class="empty-actions">
+                        <a href="gpa.html" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i> Calculate GPA
+                        </a>
+                        <button class="btn btn-secondary" id="addManualEmptyBtn">
+                            <i class="fas fa-plus"></i> Add Manual
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add/Edit Semester Modal -->
+            <div class="modal-overlay" id="semesterModal">
+                <div class="modal glass-card">
+                    <div class="modal-header">
+                        <h3 id="semesterModalTitle">Add Semester</h3>
+                        <button class="modal-close" id="semesterModalClose">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editSemesterName">Semester Name</label>
+                            <input type="text" id="editSemesterName" class="form-input" placeholder="e.g., Semester 1, Fall 2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSemesterYear">Year</label>
+                            <input type="number" id="editSemesterYear" class="form-input" value="2024" min="2000" max="2100">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSemesterGPA">GPA (0-10)</label>
+                            <input type="number" id="editSemesterGPA" class="form-input" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSemesterCredits">Credits</label>
+                            <input type="number" id="editSemesterCredits" class="form-input" placeholder="e.g., 20" min="1" max="30">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="semesterModalCancel">Cancel</button>
+                        <button class="btn btn-primary" id="semesterModalSave">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>GPATrack</span>
+                </div>
+                <p class="footer-text">Your comprehensive academic planning companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3 id="confirmTitle">Confirm Action</h3>
+                <button class="modal-close" id="confirmClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/utils.js" type="module"></script>
+    <script src="js/cgpa.js" type="module"></script>
+</body>
+</html>

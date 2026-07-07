@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator - GPATrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>GPATrack</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gpa.html" class="nav-link active"><i class="fas fa-calculator"></i> GPA</a></li>
+                <li><a href="cgpa.html" class="nav-link"><i class="fas fa-chart-line"></i> CGPA</a></li>
+                <li><a href="simulator.html" class="nav-link"><i class="fas fa-magic"></i> What-If</a></li>
+                <li><a href="analytics.html" class="nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h1><i class="fas fa-calculator"></i> GPA Calculator</h1>
+                    <p>Calculate your semester GPA by adding subjects with credits and grades</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-secondary" id="clearAllBtn">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Semester Info -->
+            <section class="semester-info-section glass-card">
+                <h3>Semester Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="semesterName">Semester Name</label>
+                        <input type="text" id="semesterName" class="form-input" placeholder="e.g., Semester 1, Fall 2024">
+                    </div>
+                    <div class="form-group">
+                        <label for="semesterYear">Year</label>
+                        <input type="number" id="semesterYear" class="form-input" value="2024" min="2000" max="2100">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Subject Form -->
+            <section class="add-subject-section glass-card">
+                <h3><i class="fas fa-plus-circle"></i> Add Subject</h3>
+                <div class="subject-form">
+                    <div class="form-group">
+                        <label for="subjectName">Subject Name</label>
+                        <input type="text" id="subjectName" class="form-input" placeholder="e.g., Mathematics, Physics">
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectCredits">Credits</label>
+                        <input type="number" id="subjectCredits" class="form-input" placeholder="1-10" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectGrade">Grade</label>
+                        <select id="subjectGrade" class="form-select">
+                            <option value="">Select Grade</option>
+                            <option value="O">O (10 points)</option>
+                            <option value="A+">A+ (9 points)</option>
+                            <option value="A">A (8 points)</option>
+                            <option value="B+">B+ (7 points)</option>
+                            <option value="B">B (6 points)</option>
+                            <option value="C">C (5 points)</option>
+                            <option value="F">F (0 points)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="addSubjectBtn">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+            </section>
+
+            <!-- Subjects Table -->
+            <section class="subjects-table-section glass-card">
+                <div class="table-header">
+                    <h3><i class="fas fa-list"></i> Subjects</h3>
+                    <span class="subject-count" id="subjectCount">0 subjects</span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="subjectsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject Name</th>
+                                <th>Credits</th>
+                                <th>Grade</th>
+                                <th>Grade Points</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsBody">
+                            <!-- Subjects will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-table" id="emptyTable">
+                    <i class="fas fa-inbox"></i>
+                    <p>No subjects added yet. Add your first subject above!</p>
+                </div>
+            </section>
+
+            <!-- GPA Results -->
+            <section class="gpa-results glass-card">
+                <h3><i class="fas fa-chart-pie"></i> Semester Results</h3>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-icon primary">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="result-content">
+                            <span class="result-label">Semester GPA</span>
+                            <span class="result-value" id="semesterGPA">0.00</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon secondary">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="result-content">
+                            <span class="result-label">Total Credits</span>
+                            <span class="result-value" id="totalCreditsSem">0</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="result-content">
+                            <span class="result-label">Earned Credits</span>
+                            <span class="result-value" id="earnedCredits">0</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon warning">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="result-content">
+                            <span class="result-label">Percentage</span>
+                            <span class="result-value" id="percentage">0.00%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Failed Subjects Warning -->
+                <div class="failed-warning" id="failedWarning" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>You have <strong id="failedCount">0</strong> failed subject(s). These will not count toward earned credits.</span>
+                </div>
+
+                <!-- Save Semester Button -->
+                <div class="save-section">
+                    <button class="btn btn-primary btn-lg" id="saveSemesterBtn">
+                        <i class="fas fa-save"></i> Save Semester
+                    </button>
+                </div>
+            </section>
+
+            <!-- Grade Scale Reference -->
+            <section class="grade-scale glass-card">
+                <h3><i class="fas fa-info-circle"></i> Grade Scale Reference</h3>
+                <div class="grade-scale-grid">
+                    <div class="grade-item grade-o"><span class="grade-letter">O</span><span class="grade-points">10</span></div>
+                    <div class="grade-item grade-ap"><span class="grade-letter">A+</span><span class="grade-points">9</span></div>
+                    <div class="grade-item grade-a"><span class="grade-letter">A</span><span class="grade-points">8</span></div>
+                    <div class="grade-item grade-bp"><span class="grade-letter">B+</span><span class="grade-points">7</span></div>
+                    <div class="grade-item grade-b"><span class="grade-letter">B</span><span class="grade-points">6</span></div>
+                    <div class="grade-item grade-c"><span class="grade-letter">C</span><span class="grade-points">5</span></div>
+                    <div class="grade-item grade-f"><span class="grade-letter">F</span><span class="grade-points">0</span></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>GPATrack</span>
+                </div>
+                <p class="footer-text">Your comprehensive academic planning companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3 id="confirmTitle">Confirm Action</h3>
+                <button class="modal-close" id="confirmClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmOk">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/utils.js" type="module"></script>
+    <script src="js/gpa.js" type="module"></script>
+</body>
+</html>

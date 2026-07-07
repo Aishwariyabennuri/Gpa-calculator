@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What-If Simulator - GPATrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>GPATrack</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gpa.html" class="nav-link"><i class="fas fa-calculator"></i> GPA</a></li>
+                <li><a href="cgpa.html" class="nav-link"><i class="fas fa-chart-line"></i> CGPA</a></li>
+                <li><a href="simulator.html" class="nav-link active"><i class="fas fa-magic"></i> What-If</a></li>
+                <li><a href="analytics.html" class="nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h1><i class="fas fa-magic"></i> What-If Simulator</h1>
+                    <p>Predict your graduation CGPA based on expected future performance</p>
+                </div>
+            </div>
+
+            <!-- Simulator Cards -->
+            <div class="simulator-grid">
+                <!-- Prediction Card -->
+                <section class="simulator-card glass-card">
+                    <div class="simulator-header">
+                        <i class="fas fa-crystal-ball"></i>
+                        <h3>CGPA Prediction</h3>
+                    </div>
+                    <p class="simulator-desc">See what your graduation CGPA will be based on expected performance in remaining semesters.</p>
+
+                    <div class="simulator-form">
+                        <div class="form-group">
+                            <label for="currentCGPAInput">Your Current CGPA</label>
+                            <div class="input-with-icon">
+                                <input type="number" id="currentCGPAInput" class="form-input" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+                                <button class="btn btn-secondary btn-sm" id="useSavedCGPA" title="Use saved CGPA">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="completedSemestersInput">Completed Semesters</label>
+                                <input type="number" id="completedSemestersInput" class="form-input" placeholder="e.g., 4" min="0" max="12">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalSemestersInput">Total Semesters</label>
+                                <input type="number" id="totalSemestersInput" class="form-input" placeholder="e.g., 8" min="1" max="12">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expectedGPAInput">Expected GPA for Remaining Semesters</label>
+                            <input type="number" id="expectedGPAInput" class="form-input" placeholder="e.g., 9.0" step="0.01" min="0" max="10">
+                        </div>
+
+                        <button class="btn btn-primary btn-block" id="predictBtn">
+                            <i class="fas fa-chart-line"></i> Predict Graduation CGPA
+                        </button>
+                    </div>
+
+                    <!-- Prediction Result -->
+                    <div class="prediction-result" id="predictionResult" style="display: none;">
+                        <div class="result-header">
+                            <h4>Prediction Result</h4>
+                        </div>
+                        <div class="result-body">
+                            <div class="result-main">
+                                <span class="result-label">Graduation CGPA</span>
+                                <span class="result-value" id="predictedCGPA">0.00</span>
+                            </div>
+                            <div class="result-change" id="cgpaChangeContainer">
+                                <i class="fas fa-arrow-up" id="changeIcon"></i>
+                                <span id="cgpaChangeValue">+0.00</span>
+                                <span>from current</span>
+                            </div>
+                        </div>
+                        <div class="motivational-message" id="motivationalMessage">
+                            <i class="fas fa-quote-left"></i>
+                            <p></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Target Calculator Card -->
+                <section class="simulator-card glass-card">
+                    <div class="simulator-header">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Target CGPA Calculator</h3>
+                    </div>
+                    <p class="simulator-desc">Find out what GPA you need in remaining semesters to achieve your target CGPA.</p>
+
+                    <div class="simulator-form">
+                        <div class="form-group">
+                            <label for="currentCGPATarget">Your Current CGPA</label>
+                            <div class="input-with-icon">
+                                <input type="number" id="currentCGPATarget" class="form-input" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+                                <button class="btn btn-secondary btn-sm" id="useSavedCGPATarget" title="Use saved CGPA">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="completedSemestersTarget">Completed Semesters</label>
+                                <input type="number" id="completedSemestersTarget" class="form-input" placeholder="e.g., 4" min="0" max="12">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalSemestersTarget">Total Semesters</label>
+                                <input type="number" id="totalSemestersTarget" class="form-input" placeholder="e.g., 8" min="1" max="12">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="targetCGPAInput">Your Target Graduation CGPA</label>
+                            <input type="number" id="targetCGPAInput" class="form-input" placeholder="e.g., 9.0" step="0.01" min="0" max="10">
+                        </div>
+
+                        <button class="btn btn-primary btn-block" id="calculateTargetBtn">
+                            <i class="fas fa-bullseye"></i> Calculate Required GPA
+                        </button>
+                    </div>
+
+                    <!-- Target Result -->
+                    <div class="prediction-result target-result" id="targetResult" style="display: none;">
+                        <div class="result-header">
+                            <h4>Required Performance</h4>
+                        </div>
+                        <div class="result-body">
+                            <div class="result-main">
+                                <span class="result-label">Required GPA</span>
+                                <span class="result-value" id="requiredGPA">0.00</span>
+                                <span class="result-sub">per remaining semester</span>
+                            </div>
+                        </div>
+                        <div class="target-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Remaining Semesters</span>
+                                <span class="detail-value" id="remainingSems">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">GPA Improvement Needed</span>
+                                <span class="detail-value" id="improvementNeeded">0.00</span>
+                            </div>
+                        </div>
+                        <div class="feasibility-check" id="feasibilityCheck">
+                            <span class="feasibility-badge" id="feasibilityBadge"></span>
+                        </div>
+                        <div class="motivational-message" id="targetMotivationalMessage">
+                            <i class="fas fa-quote-left"></i>
+                            <p></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Scenario Comparison -->
+            <section class="scenario-section glass-card">
+                <div class="section-header">
+                    <h3><i class="fas fa-balance-scale"></i> Scenario Comparison</h3>
+                    <button class="btn btn-secondary" id="addScenarioBtn">
+                        <i class="fas fa-plus"></i> Add Scenario
+                    </button>
+                </div>
+                <div class="scenarios-grid" id="scenariosGrid">
+                    <!-- Scenarios will be rendered here -->
+                </div>
+                <div class="empty-state" id="emptyScenarios">
+                    <i class="fas fa-chart-bar"></i>
+                    <p>Add scenarios to compare different graduation outcomes.</p>
+                </div>
+            </section>
+
+            <!-- Add Scenario Modal -->
+            <div class="modal-overlay" id="scenarioModal">
+                <div class="modal glass-card">
+                    <div class="modal-header">
+                        <h3>Add Scenario</h3>
+                        <button class="modal-close" id="scenarioModalClose">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="scenarioName">Scenario Name</label>
+                            <input type="text" id="scenarioName" class="form-input" placeholder="e.g., Best Case, Realistic">
+                        </div>
+                        <div class="form-group">
+                            <label for="scenarioGPA">Expected GPA per Semester</label>
+                            <input type="number" id="scenarioGPA" class="form-input" placeholder="e.g., 9.0" step="0.01" min="0" max="10">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="scenarioModalCancel">Cancel</button>
+                        <button class="btn btn-primary" id="scenarioModalSave">Add Scenario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>GPATrack</span>
+                </div>
+                <p class="footer-text">Your comprehensive academic planning companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="js/storage.js" type="module"></script>
+    <script src="js/utils.js" type="module"></script>
+    <script src="js/simulator.js" type="module"></script>
+</body>
+</html>
